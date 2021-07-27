@@ -85,7 +85,7 @@ const displayMovements = function (movements) {
 	});
 };
 
-displayMovements(account5.movements);
+displayMovements(account1.movements);
 const calcDisplayTotal = function (movements) {
 	const total = movements.reduce(
 		(accumulator, movement) => accumulator + movement,
@@ -93,7 +93,28 @@ const calcDisplayTotal = function (movements) {
 	);
 	labelBalance.textContent = `${total} USD`;
 };
-calcDisplayTotal(account5.movements);
+calcDisplayTotal(account1.movements);
+
+const calcDisplaySummary = function (movements) {
+	const incomes = movements
+		.filter((mov) => mov > 0)
+		.reduce((acc, mov) => acc + mov, 0);
+	labelSumIn.textContent = `${incomes}$`;
+	const out = movements
+		.filter((mov) => mov < 0)
+		.reduce((acc, mov) => acc + mov, 0);
+	labelSumOut.textContent = `${out}$`;
+	const interest = movements
+		.filter((mov) => mov > 0)
+		.map((deposit) => (deposit * 1.2) / 100)
+		.filter((int, i, arr) => {
+			console.log(arr);
+			return int >= 1;
+		})
+		.reduce((acc, int) => acc + int, 0);
+	labelSumInterest.textContent = `${interest}$`;
+};
+calcDisplaySummary(account1.movements);
 
 const createUsernames = function (accs) {
 	accs.forEach(function (acc) {
@@ -123,8 +144,13 @@ const total = movements.reduce(function (accumulator, current, i) {
 	return accumulator + current;
 }, 0);
 console.log(total);
-// MAXIMUM VALUE
-
+// PIPELINE ~~~ CHAINING ARRAY METHODS
+const eurToUsd = 1.1;
+const totalInUSD = movements
+	.filter((mov) => mov > 0)
+	.map((mov) => mov * eurToUsd)
+	.reduce((acc, mov) => acc + mov, 0);
+console.log(`YOU HAVE A TOTAL BALANCE OF $` + totalInUSD + ` USD`);
 // const total = movements.reduce(
 // 	(accumulator, current) => accumulator + current,
 // 	0
@@ -142,7 +168,7 @@ console.log(total);
 /////////////////////////////////////////////////
 
 // OPTION A
-const eurToUsd = 1.1;
+// const eurToUsd = 1.1;
 const movementsUSD = movements.map((mov) => mov * eurToUsd);
 // console.log(movementsUSD);
 // OPTION B
@@ -171,7 +197,6 @@ const descriptions = movements.map(
 
 let test1 = [5, 2, 4, 1, 15, 8, 3];
 let test2 = [16, 6, 10, 5, 6, 1, 4];
-let humanAge = [];
 // function calcHumanAvg(age) {
 // 	if (age >= 2) {
 // 		let humanAge = 16 + age * 4;
@@ -182,16 +207,27 @@ let humanAge = [];
 // }
 // calcHumanAvg(test1);
 
-function calcHumanAvg(ages) {
-	const humanAge = ages.map((age) => (age <= 2 ? 2 * age : 16 + age * 4));
-	// console.log(humanAge);
-	const adultDogs = humanAge.filter((age) => age >= 18);
-	// console.log(adultDogs);
-	const avgAge =
-		adultDogs.reduce((acc, cur) => acc + cur, 0) / adultDogs.length;
-	// console.log(avgAge);
-	return avgAge;
-}
-const avg1 = calcHumanAvg(test1);
-const avg2 = calcHumanAvg(test2);
-console.log(avg1, avg2);
+// function calcHumanAvg(ages) {
+// 	const humanAge = ages.map((age) => (age <= 2 ? 2 * age : 16 + age * 4));
+// 	// console.log(humanAge);
+// 	const adultDogs = humanAge.filter((age) => age >= 18);
+// 	// console.log(adultDogs);
+// 	const avgAge =
+// 		adultDogs.reduce((acc, cur) => acc + cur, 0) / adultDogs.length;
+// 	// console.log(avgAge);
+// 	return avgAge;
+// }
+// const avg1 = calcHumanAvg(test1);
+// const avg2 = calcHumanAvg(test2);
+// console.log(avg1, avg2);
+// CODING CHALLENGE #3
+
+// const calcHumanAvgArrow = (ages) =>
+// 	ages
+// 		.map((age) => (age <= 2 ? 2 * age : 16 + age * 4))
+// 		.filter((age) => age >= 18)
+// 		.reduce((acc, age, arr) => acc + age / arr.length, 0);
+
+// const avg1 = calcHumanAvgArrow(test1);
+// const avg2 = calcHumanAvgArrow(test2);
+// console.log(avg1, avg2);
