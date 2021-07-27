@@ -168,3 +168,30 @@ const descriptions = movements.map(
 	// 	return `Movement ${i + 1}: You withdrew ${Math.abs(move)}`;
 	// }
 );
+
+let test1 = [5, 2, 4, 1, 15, 8, 3];
+let test2 = [16, 6, 10, 5, 6, 1, 4];
+let humanAge = [];
+// function calcHumanAvg(age) {
+// 	if (age >= 2) {
+// 		let humanAge = 16 + age * 4;
+// 		console.log(humanAge);
+// 	} else {
+// 		console.log('problem');
+// 	}
+// }
+// calcHumanAvg(test1);
+
+function calcHumanAvg(ages) {
+	const humanAge = ages.map((age) => (age <= 2 ? 2 * age : 16 + age * 4));
+	// console.log(humanAge);
+	const adultDogs = humanAge.filter((age) => age >= 18);
+	// console.log(adultDogs);
+	const avgAge =
+		adultDogs.reduce((acc, cur) => acc + cur, 0) / adultDogs.length;
+	// console.log(avgAge);
+	return avgAge;
+}
+const avg1 = calcHumanAvg(test1);
+const avg2 = calcHumanAvg(test2);
+console.log(avg1, avg2);
